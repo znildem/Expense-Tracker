@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Chart</title>
+</head>
+<body>
+    <h2>YourExpense Breakdown</h2>
+    <img src = "data:image/png;base64, {{ plot_url }}" alt = "Expense Chart">
+    <br>
+    <a href = "{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

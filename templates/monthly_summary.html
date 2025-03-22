@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Summary</title>
+</head>
+<body>
+    <h2>Monthly Expense Summary</h2>
+
+    {% if chart_url %}
+        <img src = "data:image/png; base64, {{ chart_url }}" alt = "Monthly Summary Chart">
+    {% else %}
+        <p>No data available for summary.</p>
+    {% endif %}
+
+    <br>
+    <a href = "{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
