@@ -11,11 +11,12 @@ import seaborn as sns
 import io
 import base64
 from collections import defaultdict
+import os
 
 app = Flask(__name__)
 
 # SQLite Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./users.db'
 
 # Required for session security
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -233,6 +234,7 @@ def logout():
 
 if __name__ == '__main__':
     with app.app_context():
-        # Create database tables
-        db.create_all()
-    app.run(debug = True)
+        if not os.path.exists('users.db'):
+            # Create database tables
+            db.create_all()
+    app.run(debug = True, host = '0.0.0.0')
