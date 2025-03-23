@@ -42,11 +42,11 @@ class Expense(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False) 
 
     amount = db.Column(db.Float, nullable = False)
-    category = db.Column(db.String(100), nullable = False)
-    description = db.Column(db.String(200), nullable = True)
+    category = db.Column(db.String(50), nullable = False)
+    description = db.Column(db.String(150), nullable = False)
 
     # Auto set the date
-    date = db.Column(db.DateTime, default = datetime.utcnow)
+    date = db.Column(db.String(10), nullable =False)
 
     # Relationship with User
     user = db.relationship('User', backref = db.backref('expenses', lazy = True))
@@ -79,6 +79,7 @@ def add_expense():
         flash("Expense added successfully!", "success")
         return redirect(url_for('dashboard')) 
     except Exception as e: print(f"Error adding expense: {e}")
+    print(f"Error adding expense: {e}")
     return "Something went wrong", 400
 
 @app.route('/delete_expense/<int:expense_id>')
