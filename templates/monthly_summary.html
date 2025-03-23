@@ -1,18 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en">
 <head>
+    <meta charset = "UTF-8">
     <title>Monthly Summary</title>
+    <style>
+        :root {
+            --bg-color: rgb(205, 208, 255);
+            --text-color: #f4e4ff;
+            --card-color: #8d0659;
+            --accent-color: #a24afb;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Times New Roman', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items:center;
+            justify-content:center;
+            min-height:100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: var(--card-color);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 1rem;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.5rem;
+            border-bottom: 1 px solid #ccc;
+        }
+
+        th {
+            color: var(--accent-color);
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration:none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Monthly Expense Summary</h2>
-
-    {% if chart_url %}
-        <img src = "data:image/png; base64, {{ chart_url }}" alt = "Monthly Summary Chart">
-    {% else %}
-        <p>No data available for summary.</p>
-    {% endif %}
-
-    <br>
-    <a href = "{{ url_for('dashboard') }}">Back to Dashboard</a>
+    <div class = "container">
+        <h2>Monthly Expense Summary</h2>
+        {% if summary %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>TotalSpent</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category, total in summary.items() %}
+                <tr>
+                    <td>{{ category }}</td>
+                    <td>${{ total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            {% else %}
+            <p>No expenses found for this month.</p>
+            {% endif %}
+            <a href = "/dashboard"><-- Back to Dashboard</a>
+        </table>
+    </div>
 </body>
 </html>
