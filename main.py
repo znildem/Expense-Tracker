@@ -65,6 +65,8 @@ def add_expense():
         amount = float(request.form['amount'])
         date = request.form['date']
         category = request.form['category']
+
+        print(f"Received: {description}, {amount}, {date}, {category}")
             
         new_expense = Expense (
             user_id = current_user.id,
@@ -219,7 +221,7 @@ def dashboard():
     end_date = request.args.get('end_date')
     category = request.args.get('category')
 
-    expenses_query = Expense.query.filter_by(user_id = current_user.id)
+    expenses_query = Expense.query.filter_by(user_id = current_user.id).order_by(Expense.date.desc()).all()
     if start_date:
         expenses_query = expenses_query.filter(Expense.date >= start_date)
     if end_date:
@@ -228,7 +230,7 @@ def dashboard():
         expenses_query = expenses_query.filter_by(category = category)
 
     expenses = expenses_query.order_by(Expense.date.desc()).all()
-    return render_template('dashboard.html', username = current_user.username)
+    return render_template('dashboard.html', username = current_user.username, expenses = expenses_query)
 
 # Logs out users
 @app.route('/logout')
