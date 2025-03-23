@@ -60,21 +60,26 @@ def load_user(user_id):
 @app.route('/add_expense', methods = ['POST'])
 @login_required
 def add_expense():
-    amount = float(request.form['amount'])
-    category = request.form['category']
-    description = request.form['description']
+    try:
+        description = request.form['description']
+        amount = float(request.form['amount'])
+        date = request.form['date']
+        category = request.form['category']
+            
+        new_expense = Expense (
+            user_id = current_user.id,
+            amount = amount,
+            category = category,
+            description = description,
+            date = date
+        )
+        db.session.add(new_expense)
+        db.session.commit()
 
-    new_expense = Expense (
-        user_id = current_user.id,
-        amount = amount,
-        category = category,
-        description = description
-    )
-    db.session.add(new_expense)
-    db.session.commit()
-
-    flash("Expense added successfully!", "success")
-    return redirect(url_for('dashboard')) 
+        flash("Expense added successfully!", "success")
+        return redirect(url_for('dashboard')) 
+    except Exception as e: print(f"Error adding expense: {e}")
+    return "Something went wrong", 400
 
 @app.route('/delete_expense/<int:expense_id>')
 @login_required
